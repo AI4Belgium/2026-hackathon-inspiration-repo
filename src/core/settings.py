@@ -12,14 +12,14 @@ class Settings(BaseSettings):
     MAX_TOKENS_PER_MINUITE: int = 25000
 
     # LLM Provider: 'azure', 'openai', 'ollama', or 'lmstudio'
-    LLM_PROVIDER: Literal['azure', 'openai', 'ollama', 'lmstudio'] = 'azure'
+    LLM_PROVIDER: Literal['azure', 'openai', 'ollama', 'lmstudio'] = 'lmstudio'
 
     # Unified LLM settings (used for all providers)
-    LLM_BASE_URL: str = ''  # e.g. https://xxx.openai.azure.com, http://localhost:11434, http://localhost:1234/v1
+    LLM_BASE_URL: str = 'http://host.docker.internal:1234/v1'  # e.g. https://xxx.openai.azure.com, http://localhost:11434, http://localhost:1234/v1
     LLM_API_KEY: str = ''  # API key (use 'ollama' or 'lmstudio' for local providers)
-    LLM_CHAT_MODEL: str = 'gpt-4o'  # Chat model name/deployment
-    LLM_EMBEDDING_MODEL: str = 'text-embedding-3-small'  # Embedding model name/deployment
-    LLM_EMBEDDING_DIMENSIONS: int = 1536  # Embedding vector dimensions (1536 for OpenAI, 768 for nomic-embed-text)
+    LLM_CHAT_MODEL: str = 'unsloth-qwen3-30b-a3b-instruct-2507-mlx'  # Chat model name/deployment
+    LLM_EMBEDDING_MODEL: str = 'text-embedding-nomic-embed-text-v1.5'  # Embedding model name/deployment
+    LLM_EMBEDDING_DIMENSIONS: int = 768  # Embedding vector dimensions (1536 for OpenAI, 768 for nomic-embed-text)
 
     # Azure-specific (only needed for Azure)
     LLM_API_VERSION: str = '2024-02-01'

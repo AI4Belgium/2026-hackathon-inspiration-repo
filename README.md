@@ -46,10 +46,12 @@ Key environment variables:
 
 | Variable | Default |
 |---|---|
-| `LLM_PROVIDER` | `openai` (azure, ollama, lmstudio) |
+| `LLM_PROVIDER` | `lmstudio` (azure, openai, ollama) |
 | `LLM_API_KEY` | — |
-| `LLM_CHAT_MODEL` | `gpt-4o` |
-| `LLM_EMBEDDING_MODEL` | `text-embedding-3-small` |
+| `LLM_BASE_URL` | `http://host.docker.internal:1234/v1` |
+| `LLM_CHAT_MODEL` | `unsloth-qwen3-30b-a3b-instruct-2507-mlx` |
+| `LLM_EMBEDDING_MODEL` | `text-embedding-nomic-embed-text-v1.5` |
+| `LLM_EMBEDDING_DIMENSIONS` | `768` |
 | `DATABASE_URL` | `postgres://admin:admin@localhost:5432/vector_db` |
 
 3. Start everything:
