@@ -1,0 +1,62 @@
+services:
+  streamlit:
+    container_name: streamlit-interface
+    build: .
+    entrypoint: ./entrypoint.sh
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://admin:admin@postgres:5432/vector_db}
+      - PYTHON_EXECUTOR_URL=http://python-executor:5000
+      - NODEJS_EXECUTOR_URL=http://nodejs-executor:3000
+    volumes:
+      - shared_data:/app/data
+    depends_on:
+      - postgres
+      - python-executor
+      - nodejs-executor
+
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: pgvector_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: vector_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+
+  python-executor:
+    container_name: python-executor
+    build:
+      context: ./executors/python
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5000"
+    volumes:
+      - shared_data:/app/data:ro
+    environment:
+      - EXECUTION_TIMEOUT=60
+
+  nodejs-executor:
+    container_name: nodejs-executor
+    build:
+      context: ./executors/nodejs
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000"
+    volumes:
+      - shared_data:/app/data:ro
+    environment:
+      - EXECUTION_TIMEOUT=60
+
+volumes:
+  pgvector_data:
+  shared_data:
